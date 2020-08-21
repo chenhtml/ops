@@ -4,7 +4,7 @@ groups=(dba oinstall)
 ORACLE_BASE=/data/app
 
 #rpm -ivh --nodeps --force oracle_deps/*.rpm
-
+echo "create user"
 egrep "$user:" /etc/passwd >/dev/null 2>&1
 if [ $? -eq 0 ]
 then
