@@ -27,6 +27,7 @@ useradd -g oinstall -G dba oracle
 echo "$user:oracle" | chpasswd
 
 #创建oracle基本目录
+echo "mk oracle_base dir"
 mkdir -p $ORACLE_BASE/oracle
 chown -R oracle:oinstall $ORACLE_BASE/oracle
 chmod -R 755 $ORACLE_BASE/oracle
@@ -36,6 +37,7 @@ chown -R oracle:oinstall $ORACLE_BASE/oraInventory
 chmod -R 755 $ORACLE_BASE/oraInventory 
 
 # configure the kernel params
+echo "configure the kernel params"
 sed -i '/kernel.shmall/d' /etc/sysctl.conf 
 sed -i '/kernel.shmall/d' /etc/sysctl.conf 
 sed -i '/kernel.shmmax/d' /etc/sysctl.conf  
