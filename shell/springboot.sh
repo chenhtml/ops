@@ -2,7 +2,7 @@
 JAR_PATH=/root/
 LOG=/root/jar_update.log
 JAR=""
-PID=$( jps -| grep $1 | grep -v grep | awk '{ print $1 }')
+PID=$( jps -l | grep $1 | grep -v grep | awk '{ print $1 }')
 
 case "$2" in
   start)
@@ -19,12 +19,12 @@ case "$2" in
        fi
        ;; 
   stop)
-      echo $PID
       if [ -z "$PID" ]
       then
          echo "$1 not running" 
       else
          kill -9 $PID
+         echo "$1 stopped"
       fi
        ;;
  restart)
