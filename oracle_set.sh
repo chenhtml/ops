@@ -87,7 +87,7 @@ EOF
 sed  -i '/if \[ \$USER = "oracle" \];/,$d' /etc/profile
 cat >> /etc/profile << EOF
 if [ \$USER = "oracle" ];
-then if [ \$SHELL = "/bin/ksh"];
+then if [ \$SHELL = "/bin/ksh" ];
    then ulimit -p 65536 ulimit -n 65536
    else ulimit -u 65536 -n 65536
    fi
