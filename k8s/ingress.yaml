@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata: 
+  name: ingress
+  namespace: dev
+spec:
+  rules:
+  - host: tomcat.study.com
+    http: 
+      paths: 
+      - path: /
+        backend:
+          serviceName: tomcat-service
+          servicePort: 8080
+  - host: nginx.study.com
+    http: 
+      paths: 
+      - path: /
+        backend:
+          serviceName: nginx-service
+          servicePort: 80

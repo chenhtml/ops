@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+   name: pod-initcontainer
+   namespace: dev
+spec:
+   containers:
+   - name: nginx
+     imagePullPolicy: IfNotPresent
+     image: nginx:1.17.2
+     ports:
+     - name: nginx-port
+       containerPort: 80
+   initContainers:
+   - name: test-mysql
+     image: busybox:1.30
+     command: ['sh','-c','until ping 192.168.92.131 -c 1;do echo eaiting for mysql...;sleep 2;done;']
+   - name: test-redis
+     image: busybox:1.30
+     command: ['sh','-c','until ping 192.168.92.132 -c 1;do echo eaiting for mysql...;sleep 2;done;']
+

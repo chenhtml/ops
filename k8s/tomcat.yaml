@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tomcat
+  namespace: dev
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      run: tomcat
+  template:
+    metadata:   
+      labels:
+        run: tomcat
+    spec:
+      containers:
+      - image: tomcat:8.5-jre8-slim
+        imagePullPolicy: IfNotPresent
+        name: tomcat
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+          
+          
+---
+ 
+apiVersion: v1
+kind: Service
+metadata:
+  name: tomcat-service
+  namespace: dev
+spec:
+  selector:
+    run: tomcat
+  type: ClusterIP
+  ports:
+  - port: 8080
+    targetPort: 8080

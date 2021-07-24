@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job
+  namespace: dev
+  labels: 
+    control: job
+spec:
+  completions: 6 #指定job需要成功运行Pods的次数，默认值1
+  parallelism: 3 #指定job运行pods的并发数，默认为1
+  activeDeadlineSeconds: 60 #指定job可运行的时间期限，超时未结束，系统将会尝试进行终止
+  backoffLimit: 6 # 指定job失败后进行重试的次数，默认是6
+  manualSelector: true #是否可以使用selctor选择器选择pod，默认false
+  selector:
+    matchLabels:
+       app: counter-pod
+  template:
+    metadata:
+      labels:
+        app: counter-pod
+    spec:
+      restartPolicy: Never #重启策略只能设置为Never或者OnFailure
+      containers:
+      - name: counter
+        image: busybox:1.30
+        command: ["/bin/sh","-c","for i in 9 8 7 6 5 4 3 2 1;do echo $i;sleep 2; done"]
