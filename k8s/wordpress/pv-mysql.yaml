@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata: 
+  name: data
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: mysql
+  nfs:
+    path: /data
+    server: 192.168.92.135

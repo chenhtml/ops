@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  selector:
+     app: wordpress
+     tier: mysql
+  ports:
+  - port: 3306
+    targetPort: 3306
+  clusterIP: None
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: wordpress-mysql
+    labels:
+      app: wordpress
+spec:
+    replicas: 1
+    selector:
+      matchLabels:
+         app:  wordpress
+         tier: mysql
+    template:
+      metadata:
+         labels:
+           app:  wordpress
+           tier: mysql
+      spec:
+        containers:
+        - name: mysql
+          image: mysql:5.7
+          ports:
+          - containerPort: 3306
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-data
+          env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: x1270qwe
+        volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: data
+            readOnly: false
+        

@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata: 
+  name: ingress
+  namespace: dev
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"       
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: study.com
+    http: 
+      paths: 
+      - path: /tomcat(/|$)
+        #pathType: Exact
+        backend:
+          serviceName: tomcat-service
+          servicePort: 8080
+      - path: /nginx(/|$)
+        #pathType: Exact
+        backend:
+           serviceName: nginx-service
+           servicePort: 80

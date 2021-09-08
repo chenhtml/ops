@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress
+spec:
+  selector: 
+     app: wordpress
+     tier: wordpress
+  ports:
+  - port: 80
+    nodePort: 31943
+  type: NodePort
+    
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: wordpress
+    labels:
+      app: wordpress
+spec:
+    replicas: 1
+    selector:
+      matchLabels:
+         app:  wordpress
+         tier: wordpress
+    template:
+      metadata:
+         labels:
+           app:  wordpress
+           tier: wordpress
+      spec:
+        containers:
+        - name: wordpress
+          image: wordpress:5.6.2-php7.4
+          ports:
+          - containerPort: 80
+          volumeMounts:
+          - mountPath: /var/www/html
+            name: wordpress-data
+          env:
+          - name: WORDPRESS_DB_HOST
+            value: mysql
+          - name: WORDPRESS_DB_PASSWORD
+            value: x1270qwe
+          - name: WORDPRESS_DB_USER
+            value: root
+        volumes:
+        - name: wordpress-data
+          persistentVolumeClaim:
+            claimName: wordpress     
+            
+      
